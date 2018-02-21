@@ -1,0 +1,14 @@
+<h3>Here are the tweets associated with <em><%= @tag.phrase %></em></h3>
+
+<div style="margin: 50px">
+
+	<% @tag.tweets.order(created_at: :desc).each do |tweet| %>
+		<div class="row">
+			<div class="well">
+				<p><%= image_tag tweet.user.avatar.thumb, class: 'img-round' %><strong><%= tweet.user.name %></strong>,  @<%= tweet.user.username %></p>
+				<p><%= tweet.message.html_safe %></p>	
+				<p><%= time_ago_in_words(tweet.created_at) %></p>	
+			</div>
+		</div>
+	<% end %>	
+	</div>	

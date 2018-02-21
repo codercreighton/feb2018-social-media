@@ -1,5 +1,7 @@
 class EpicenterController < ApplicationController
 	before_action :authenticate_user!
+
+  include TweetsHelper
 	
   def feed
     @tweet = Tweet.new
@@ -40,7 +42,17 @@ class EpicenterController < ApplicationController
 
   def epi_tweet
     @tweet = Tweet.create(message: params[:tweet][:message], user_id: params[:tweet][:user_id].to_i)
+    
+    @tweet = get_tagged(@tweet)
     @tweet.save
     redirect_to root_path
   end  
+
+  def tag_tweets
+    @tag = Tag.find(params[:id])
+  end  
+
+
+
+
 end
