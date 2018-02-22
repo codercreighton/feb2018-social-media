@@ -23,6 +23,11 @@ class EpicenterController < ApplicationController
     end 
   end
 
+
+  def all_users
+    @users = User.all
+  end  
+
   def now_following
   	
   	current_user.following.push(params[:id].to_i)
@@ -38,7 +43,29 @@ class EpicenterController < ApplicationController
 	  redirect_to show_user_path(id: params[:id])  	
   end
 
+  def following
+    @user = User.find(params[:id])
+    @users = []
 
+    User.all.each do |user|
+      if @user.following.include? user.id
+        @users.push(user)
+      end  
+    end
+  end   
+
+
+  def followers
+    @user = User.find(params[:id]) 
+    @users =[]
+
+    User.all.each do |user|
+      if user.following.include? @user.id
+        @users.push(user)
+      end
+    end
+  end
+           
 
   def epi_tweet
     @tweet = Tweet.create(message: params[:tweet][:message], user_id: params[:tweet][:user_id].to_i)

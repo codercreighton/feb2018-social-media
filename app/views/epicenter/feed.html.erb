@@ -1,4 +1,4 @@
-<h4> Hey <strong><%= current_user.username %>! </strong> Here is what your friends are talking about...</h4>
+<h4> Hey <strong><%= current_user.username %>! </strong> Here is what your "friends" are talking about...</h4>
 
 
 <%= form_for @tweet, url: {action: "epi_tweet"} do |f| %>
@@ -12,22 +12,25 @@
 
 
 
-<div class="container">
-	<% @following_tweets.each do |tweet| %>
-		<div class="well  well-doc" >
-			<div class="media">
-			  <div class="media-left media-top">
-			    <%= image_tag tweet.user.avatar.thumb, class: "img-circle"%>
-			  </div>
-			  <div class="media-body">
-			    <h5 class="media-heading"></h5>
-			    <p>@<%= link_to tweet.user.username, show_user_path(id: tweet.user_id) %> wrote:</p>
-			    <p><%= tweet.message.html_safe %></p>
-			    <p>Posted <%= time_ago_in_words(tweet.created_at) %> ago</p>
+<p><strong>Here is what your<em> "friends" </em>are saying:</strong></p>
 
-				</div>
-			</div>
-		</div>
-
-  <% end %>
+<% @following_tweets.each do |tweet| %>
+<div class="well well-doc" >
+	<div class="media">
+  	<div class="media-left media-top">
+    <%= image_tag tweet.user.avatar.thumb, class: "img-circle"%>
+  </div>
+  <div class="media-body">
+    <h5 class="media-heading"><%= link_to tweet.user.name, show_user_path(id: tweet.user.id) %> • <%= time_ago_in_words(tweet.created_at) if Time.now - tweet.created_at < 864000 %> <%=tweet.created_at.strftime('%b%e') if Time.now - tweet.created_at > 864000 %></h5>
+    <p> @<%= tweet.user.username %></p>
+   
+    <p><%= tweet.message.html_safe %></p>
+    <% if current_user.id == tweet.user.id %>
+		  <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+	   <% end %>	
+  </div>
 </div>
+	</div>
+<% end %>
+
+

@@ -26,7 +26,7 @@
         <ul class="nav navbar-nav">
           <li><%= link_to "Compose New Tweet", new_tweet_path %></li>
            <li><%= link_to "All Tweets", tweets_path %></li>
-         
+            <li><%= link_to "All Users", all_users_path %></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
@@ -47,7 +47,37 @@
     </div>
   </nav>
 	  <div class="container">
-	    <%= yield %>
-	  </div>
+    <% if user_signed_in? %>
+      <div class="row" >
+        <div class="col-lg-3">
+          <div class="well" >
+          
+          <!-- This side of the page will contain current_user profile information which will appear on every page -->
+            <center>
+              <p><%= image_tag current_user.avatar.url, class: "show-pic img-circle" %></p>
+              <h4>You are currently logged in as: </h4>
+              <p><strong><%= link_to current_user.name, show_user_path(id: current_user.id) %></strong> @<%= current_user.username %></p>
+              <p>Location: <strong><%= current_user.location %></strong></p>
+            </center>
+    
+          </div>
+        </div>
+       <div class="col-lg-6">
+          <div class="well"> 
+            <%= yield %>
+          </div>
+         </div> 
+        <div class="col-lg-3"> 
+          <div class="well">
+           <h3>What's hot now!</h3>
+            
+ 
+          </div>
+        </div>
+          <% else %>
+            <%= yield %>
+          <% end %> 
+        </div>
+    </div> 
   </body>
 </html>

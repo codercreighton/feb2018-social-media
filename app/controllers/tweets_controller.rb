@@ -64,7 +64,7 @@ class TweetsController < ApplicationController
   def destroy
     @tweet.destroy
     respond_to do |format|
-      format.html { redirect_to tweets_url, notice: 'Tweet was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Tweet was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
